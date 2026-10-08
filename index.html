@@ -1,1 +1,627 @@
-bodyChild.getBoundingClientRect().bottom - bodyTop, ), ); } const viewportHeight = globalThis.innerHeight; const previous = previousMeasurement; previousMeasurement = { contentHeight, contentWidth, viewportHeight }; if ( previous != null && contentWidth === previous.contentWidth && contentHeight - previous.contentHeight === viewportHeight - previous.viewportHeight ) { return; } void globalThis.openai .callTool( "__codex_inline_visualization_height__", { height: contentHeight, width: contentWidth }, ) .catch(() => {}); }; const scheduleHeightReport = () => { if (heightReportTimer != null) { return; } // Offscreen frames can suspend animation callbacks while their content loads. heightReportTimer = globalThis.setTimeout(() => { heightReportTimer = null; reportHeight(); }, 0); }; const resizeObserver = new ResizeObserver(scheduleHeightReport); const observeBodyChildren = () => { for (const element of document.body.children) { resizeObserver.observe(element); } }; resizeObserver.observe(document.body); observeBodyChildren(); new MutationObserver(() => { observeBodyChildren(); scheduleHeightReport(); }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["style", "class", "height", "width"], }); globalThis.addEventListener("resize", scheduleHeightReport); reportHeight(); })();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahuzon Abdon Denakpo | Academic Website</title>
+
+<style>
+:root {
+  --navy: #122844;
+  --blue: #245a87;
+  --bg: #f4f7fb;
+  --ink: #203047;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.7;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover { text-decoration: underline; }
+
+button {
+  background: white;
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hero {
+  background: linear-gradient(120deg, #122844, #28537d);
+  color: white;
+  padding: 65px 20px;
+}
+
+.hero-inner {
+  max-width: 1080px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 45px;
+}
+
+.hero img {
+  width: 235px;
+  height: 285px;
+  object-fit: cover;
+  object-position: center 28%;
+  border-radius: 18px;
+  border: 5px solid #ffffff35;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.2;
+}
+
+.hero a { color: #d6e9ff; }
+
+main {
+  max-width: 1080px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+section {
+  background: white;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 18px #162e4610;
+}
+
+h2 {
+  color: var(--navy);
+  border-bottom: 2px solid #eaf1f8;
+  padding-bottom: 10px;
+}
+
+h3 {
+  color: var(--blue);
+  margin-bottom: 5px;
+}
+
+a { color: var(--blue); }
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chips span {
+  background: #eaf1f8;
+  padding: 8px 13px;
+  border-radius: 25px;
+  font-size: 14px;
+}
+
+.muted { color: #617087; }
+
+.cv-button {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  padding: 13px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.cv-button:hover { background: var(--navy); }
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #65738a;
+}
+
+/* CHANGEMENT DE LANGUE */
+
+[data-lang="en"] { display: none; }
+
+body.en [data-lang="fr"] { display: none; }
+
+body.en [data-lang="en"] { display: revert; }
+
+/* VERSION MOBILE */
+
+@media(max-width:700px) {
+  header { justify-content: center; }
+  nav { justify-content: center; }
+
+  .hero-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero img {
+    width: 185px;
+    height: 225px;
+  }
+
+  .two { grid-template-columns: 1fr; }
+
+  section { padding: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>Mahuzon Abdon Denakpo</strong>
+
+  <nav>
+    <a href="#about">
+      <span data-lang="fr">À propos</span>
+      <span data-lang="en">About</span>
+    </a>
+
+    <a href="#research">
+      <span data-lang="fr">Recherche</span>
+      <span data-lang="en">Research</span>
+    </a>
+
+    <a href="#education">
+      <span data-lang="fr">Formation</span>
+      <span data-lang="en">Education</span>
+    </a>
+
+    <a href="#publications">Publications</a>
+
+    <a href="#projects">
+      <span data-lang="fr">Projets</span>
+      <span data-lang="en">Projects</span>
+    </a>
+
+    <a href="#cv">CV</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <button id="language">EN</button>
+</header>
+
+<!-- ACCUEIL -->
+
+<div class="hero">
+  <div class="hero-inner">
+
+    <img src="photo.jpg"
+         alt="Mahuzon Abdon Denakpo">
+
+    <div>
+      <p>STATISTICS · PROBABILITY · DATA SCIENCE</p>
+
+      <h1>Mahuzon Abdon Denakpo</h1>
+
+      <p data-lang="fr">
+        Futur doctorant en statistique à
+        l'Université du Québec à Trois-Rivières
+        (UQTR), Canada, à compter de janvier 2027.
+      </p>
+
+      <p data-lang="en">
+        Incoming PhD student in Statistics at
+        Université du Québec à Trois-Rivières
+        (UQTR), Canada, starting January 2027.
+      </p>
+
+      <a href="https://github.com/mahuzondenakpo">
+        GitHub ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- À PROPOS -->
+
+<section id="about">
+
+  <h2 data-lang="fr">À propos de moi</h2>
+  <h2 data-lang="en">About me</h2>
+
+  <p data-lang="fr">
+    Titulaire d'un Master en Statistiques-Probabilités
+    de l'Institut de Mathématiques et de Sciences
+    Physiques (IMSP), Université d'Abomey-Calavi,
+    et d'un Master en Data Science de l'Université
+    d'Angers, je m'intéresse à la statistique
+    mathématique, aux probabilités, à l'inférence
+    statistique et à l'apprentissage automatique.
+
+    Mes travaux de recherche ont notamment porté
+    sur les équations différentielles stochastiques
+    fractionnaires et l'inférence causale sur graphes.
+
+    Mon projet doctoral porte sur l'estimation
+    non paramétrique sur des espaces structurés.
+  </p>
+
+  <p data-lang="en">
+    I hold a Master's degree in Statistics and
+    Probability from the Institute of Mathematics
+    and Physical Sciences (IMSP), University of
+    Abomey-Calavi, and a Master's degree in
+    Data Science from the University of Angers.
+
+    My research interests include mathematical
+    statistics, probability theory, statistical
+    inference and machine learning.
+
+    My previous research includes fractional
+    stochastic differential equations and
+    graph-based causal inference.
+
+    My doctoral research project focuses on
+    nonparametric estimation on structured spaces.
+  </p>
+
+</section>
+
+<!-- RECHERCHE ET FORMATION -->
+
+<div class="two">
+
+<section id="research">
+
+  <h2 data-lang="fr">Domaines de recherche</h2>
+  <h2 data-lang="en">Research interests</h2>
+
+  <div class="chips">
+    <span>Nonparametric Statistics</span>
+    <span>Statistical Inference</span>
+    <span>Probability Theory</span>
+    <span>Stochastic Processes</span>
+    <span>Compositional Data</span>
+    <span>Machine Learning</span>
+    <span>Statistical Computing</span>
+  </div>
+
+</section>
+
+<section id="education">
+
+  <h2 data-lang="fr">Parcours académique</h2>
+  <h2 data-lang="en">Education</h2>
+
+  <h3>Université du Québec à Trois-Rivières</h3>
+
+  <p data-lang="fr">
+    Doctorat en statistique.
+    Admission définitive confirmée.
+    Début prévu en janvier 2027.
+  </p>
+
+  <p data-lang="en">
+    PhD in Statistics.
+    Officially admitted.
+    Expected start: January 2027.
+  </p>
+
+  <h3>Université d'Angers</h3>
+
+  <p>Master Data Science (2024–2025)</p>
+
+  <p data-lang="fr">
+    Bourse d'excellence du Centre Henri Lebesgue.
+  </p>
+
+  <p data-lang="en">
+    Centre Henri Lebesgue Excellence Scholarship.
+  </p>
+
+  <h3>IMSP — Université d'Abomey-Calavi</h3>
+
+  <p data-lang="fr">
+    Master Statistiques-Probabilités
+    (2022–2024), Mention Bien.
+  </p>
+
+  <p data-lang="en">
+    Master's in Statistics and Probability
+    (2022–2024), With Honors.
+  </p>
+
+  <h3>UNSTIM — Bénin</h3>
+
+  <p data-lang="fr">
+    Licence Mathématiques-Informatique
+    (2018–2021).
+  </p>
+
+  <p data-lang="en">
+    Bachelor's degree in Mathematics and
+    Computer Science (2018–2021).
+  </p>
+
+</section>
+
+</div>
+
+<!-- PUBLICATIONS -->
+
+<section id="publications">
+
+  <h2 data-lang="fr">
+    Publications et travaux scientifiques
+  </h2>
+
+  <h2 data-lang="en">
+    Publications and research
+  </h2>
+
+  <h3>
+    Asymptotic Approximations for the
+    Skellam Distribution
+  </h3>
+
+  <p data-lang="fr">
+    Travail de recherche en cours sur les
+    approximations asymptotiques de la loi
+    de Skellam, les développements locaux
+    et l'estimation statistique robuste.
+  </p>
+
+  <p data-lang="en">
+    Ongoing research on asymptotic approximations
+    for the Skellam distribution, local expansions
+    and robust statistical estimation.
+  </p>
+
+  <p class="muted" data-lang="fr">
+    Statut : travail en préparation.
+  </p>
+
+  <p class="muted" data-lang="en">
+    Status: work in preparation.
+  </p>
+
+</section>
+
+<!-- EXPÉRIENCES -->
+
+<section id="experience">
+
+  <h2 data-lang="fr">Expériences de recherche</h2>
+  <h2 data-lang="en">Research experience</h2>
+
+  <h3>LPHI — Université de Montpellier</h3>
+
+  <p class="muted">2025</p>
+
+  <p data-lang="fr">
+    Stage de recherche en Data Science consacré
+    à la modélisation de réseaux biologiques
+    et à l'inférence causale à l'aide de
+    réseaux de neurones sur graphes (GNN).
+  </p>
+
+  <p data-lang="en">
+    Data Science research internship focused
+    on biological network modeling and
+    causal inference using Graph Neural
+    Networks (GNNs).
+  </p>
+
+  <h3>IMSP — Université d'Abomey-Calavi</h3>
+
+  <p class="muted">2024</p>
+
+  <p data-lang="fr">
+    Mémoire sur les équations différentielles
+    stochastiques fractionnaires, l'existence
+    et l'unicité des solutions ainsi que
+    la stabilité de Hyers-Ulam.
+  </p>
+
+  <p data-lang="en">
+    Master's thesis on fractional stochastic
+    differential equations, existence and
+    uniqueness of solutions, and Hyers-Ulam
+    stability.
+  </p>
+
+</section>
+
+<!-- PROJETS -->
+
+<section id="projects">
+
+  <h2 data-lang="fr">Projets scientifiques</h2>
+  <h2 data-lang="en">Scientific projects</h2>
+
+  <h3>Graph Neural Networks for Causal Inference</h3>
+
+  <p data-lang="fr">
+    Modélisation de réseaux biologiques
+    et inférence causale dirigée par GNN.
+  </p>
+
+  <p data-lang="en">
+    Biological network modeling and directed
+    causal inference using GNNs.
+  </p>
+
+  <h3>Financial Volatility Modeling</h3>
+
+  <p data-lang="fr">
+    Modélisation de la volatilité financière
+    avec les modèles ARCH et GARCH sous R.
+  </p>
+
+  <p data-lang="en">
+    Financial volatility modeling using
+    ARCH and GARCH models in R.
+  </p>
+
+  <h3>Biological Activity Prediction</h3>
+
+  <p data-lang="fr">
+    Prédiction de l'activité biologique
+    par Random Forest et XGBoost.
+  </p>
+
+  <p data-lang="en">
+    Biological activity prediction using
+    Random Forest and XGBoost.
+  </p>
+
+</section>
+
+<!-- COMPÉTENCES -->
+
+<section id="skills">
+
+  <h2 data-lang="fr">Compétences techniques</h2>
+  <h2 data-lang="en">Technical skills</h2>
+
+  <div class="chips">
+    <span>Python</span>
+    <span>R</span>
+    <span>SQL</span>
+    <span>PyTorch</span>
+    <span>PyTorch Geometric</span>
+    <span>NumPy</span>
+    <span>Pandas</span>
+    <span>Scikit-learn</span>
+    <span>LaTeX</span>
+    <span>Git</span>
+    <span>Power BI</span>
+    <span>Statistical Modeling</span>
+    <span>Time Series</span>
+    <span>Deep Learning</span>
+  </div>
+
+</section>
+
+<!-- CV BILINGUE -->
+
+<section id="cv">
+
+  <h2 data-lang="fr">Curriculum Vitae</h2>
+  <h2 data-lang="en">Academic Curriculum Vitae</h2>
+
+  <p data-lang="fr">
+    Consultez ou téléchargez mon CV
+    académique en français.
+  </p>
+
+  <p data-lang="en">
+    View or download my academic CV in English.
+  </p>
+
+  <a data-lang="fr"
+     class="cv-button"
+     href="CV_Mahuzon_Abdon_DENAKPO_FR.pdf"
+     download>
+    Télécharger mon CV (PDF)
+  </a>
+
+  <a data-lang="en"
+     class="cv-button"
+     href="CV_Mahuzon_Abdon_DENAKPO_EN.pdf"
+     download>
+    Download my CV (PDF)
+  </a>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+  <h2>Contact</h2>
+
+  <p>
+    GitHub :
+    <a href="https://github.com/mahuzondenakpo"
+       target="_blank" rel="noopener">
+      github.com/mahuzondenakpo
+    </a>
+  </p>
+
+  <p>
+    LinkedIn :
+    <a href="https://www.linkedin.com/in/mahuzon-abdon-denakpo"
+       target="_blank" rel="noopener">
+      Mahuzon Abdon Denakpo
+    </a>
+  </p>
+
+  <p data-lang="fr" class="muted">
+    Les liens ORCID et Google Scholar
+    seront ajoutés prochainement.
+  </p>
+
+  <p data-lang="en" class="muted">
+    ORCID and Google Scholar links
+    will be added soon.
+  </p>
+
+</section>
+
+</main>
+
+<footer>
+  © 2026 Mahuzon Abdon Denakpo
+</footer>
+
+<!-- BOUTON FR / EN -->
+
+<script>
+  const languageButton = document.getElementById("language");
+
+  languageButton.addEventListener("click", function() {
+    const english = document.body.classList.toggle("en");
+
+    document.documentElement.lang = english ? "en" : "fr";
+
+    languageButton.textContent = english ? "FR" : "EN";
+  });
+</script>
+
+</body>
+</html>
